@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+}
+
+group 'com.saniaky.aws'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+task buildZip(type: Zip) {
+    from compileJava
+    from processResources
+    into('lib') {
+        from configurations.compileClasspath
+    }
+}
+
+build.dependsOn buildZip
+
+dependencies {
+    compile(
+            'com.amazonaws:aws-lambda-java-core:1.2.0',
+            'com.amazonaws:aws-lambda-java-events:1.2.0',
+            'net.coobird:thumbnailator:0.4.8'
+    )
+
+    testCompile 'junit:junit:4.12'
+}
